@@ -77,6 +77,13 @@ export function Chat({ username, onLogout }: ChatProps) {
     socket.emit("joinRoom", room);
   };
 
+  const onKeyDown = e => {
+    if (e.target.value.trim() === "") return;
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <ChatContainer>
       <ChatHeader>
@@ -111,7 +118,7 @@ export function Chat({ username, onLogout }: ChatProps) {
           type="text"
           value={input}
           onChange={e => setInput(e.target.value)}
-          onKeyDown={e => e.key === "Enter" && handleSubmit(e)}
+          onKeyDown={onKeyDown}
           placeholder="메시지를 입력하세요..."
           disabled={!currentRoom}
         />
